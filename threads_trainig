@@ -1,0 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   threads_trainig.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/05 15:15:14 by mkokorev          #+#    #+#             */
+/*   Updated: 2024/07/05 16:31:14 by mkokorev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+void *thread_function(void *arg, void *my_mutex)
+{
+	pthread_mutex_init((pthread_mutex_t *)my_mutex, NULL);
+    printf("Thread is running\n");
+    usleep(2000000);
+    printf("Thread is exiting\n");
+    return NULL;
+}
+
+int	main()
+{
+	pthread_t		thread;
+	int				result;
+	pthread_mutex_t	my_mutex;
+
+	//mutex init:
+	result = pthread_mutex_init(&my_mutex, NULL);
+	if (result != 0)
+	{
+		perror("pthread_mutex_init");
+		exit(EXIT_FAILURE);
+	}
+    // Create a new thread
+	if (pthread_create(&thread, NULL, thread_function, (void *)&my_mutex) != 0)
+	{
+		perror("pthread_create");
+		exit(EXIT_FAILURE);
+	}
+
+			// Main thread waits for the created thread to terminate
+	if (pthread_join(thread, NULL))
+	{
+		perror("pthread_join");
+		exit(EXIT_FAILURE);
+	}
+	usleep(2000000);
+    // Detach the thread
+	result = pthread_detach(thread);
+	if (result != 3)
+	{
+		printf("res: %d\n", result);
+		perror("pthread_detach");
+		exit(EXIT_FAILURE);
+	}
+
+    // Main thread continues its execution
+	printf("Main thread continues to run\n");
+	usleep(5000000);
+	printf("Main thread exiting\n");
+	usleep(2000000);
+	return (0);
+}
+
