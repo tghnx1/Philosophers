@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Philo.c                                            :+:      :+:    :+:   */
+/*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 19:31:40 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/07/09 15:56:30 by mkokorev         ###   ########.fr       */
+/*   Created: 2024/07/09 15:54:04 by mkokorev          #+#    #+#             */
+/*   Updated: 2024/07/09 15:57:49 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Philo.h"
+#include "../Philo.h"
 
-int	main(int argc, char **argv)
+void	*free_philos(t_philo *head, int num)
 {
-	t_input	input;
-	t_philo	**philos;
-	t_philo	*head;
+	int		i;
+	t_philo	*current;
+	t_philo	*temp;
 
-	if (!ft_parce(argc, argv, &input))
-		return (0);
-	philos = ft_link_philo_def(input);
-	head = philos[0];
-	print_list(head, input);
-	ft_threads_def(input, philos);
-	free(philos);
-	free_philos(head, input.number_of_philosophers);  //at the end
-
-	return (0);
+	if (!head)
+		return (NULL);
+	i = 0;
+	current = head;
+	while (i < num)
+	{
+		temp = current;
+		current = current->right;
+		free(temp);
+		temp = NULL;
+		i++;
+	}
+	return (NULL);
 }
+

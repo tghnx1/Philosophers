@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads_trainig.c                                  :+:      :+:    :+:   */
+/*   threads_trainig                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:15:14 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/07/05 16:31:14 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:03:08 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int	main()
 	pthread_mutex_t	my_mutex;
 
 	//mutex init:
-	result = pthread_mutex_init(&my_mutex, NULL);
-	if (result != 0)
+	if (pthread_mutex_init(&my_mutex, NULL) != 0)
 	{
 		perror("pthread_mutex_init");
 		exit(EXIT_FAILURE);
