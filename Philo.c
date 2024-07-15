@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:31:40 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/07/09 15:56:30 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/07/15 20:28:35 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ int	main(int argc, char **argv)
 		return (0);
 	philos = ft_link_philo_def(input);
 	head = philos[0];
-	print_list(head, input);
+	//print_list(head, input);
 	ft_threads_def(input, philos);
 	free(philos);
 	free_philos(head, input.number_of_philosophers);  //at the end
-
 	return (0);
 }
