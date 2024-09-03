@@ -6,66 +6,81 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:45 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/07/09 16:02:56 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:08:43 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Philo.h"
 
-void	print_list(t_philo *head, t_input input)
+t_philo	*ft_philos_def(t_input input)
 {
-	t_philo	*current;
+	t_philo	*philo;
 	int		i;
 
-	i = 0;
-	current = head;
-	while (i < input.number_of_philosophers)
+	i = 1;
+	philo = (t_philo *)malloc(input.number_of_philosophers
+			* sizeof(t_philo));
+	if (!(philo))
+		return (NULL);
+	while (i <= input.number_of_philosophers)
 	{
-		printf("ind: %d\n", current->index);
-		current = current->right;
+		philo[i - 1].number = i;
 		i++;
 	}
+	philo->time_eating = 0;
+	philo->time_sleeping = 0;
+	philo->time_eating = 0;
+	return (philo);
+
 }
 
-void	nodes_init(t_input input, t_philo	**philos)
+void	ft_threads_join(t_input input, pthread_t	*thread)
 {
 	int	i;
 
 	i = 0;
 	while (i < input.number_of_philosophers)
 	{
-		philos[i] = (t_philo *)(malloc(sizeof(t_philo)));
-		if (!(philos[i]))
-			return ;
-		else if (i)
+		if (pthread_join(thread[i], NULL) != 0)
 		{
-			philos[i]->left = philos[i - 1];
-			philos[i - 1]->right = philos[i];
+			perror("pthread_create");
+			exit(EXIT_FAILURE);
 		}
-		if (i == input.number_of_philosophers - 1)
-			philos[0]->left = philos[i];
-		philos[i]->right = philos[0];
-		philos[i]->index = i;
-		philos[i]->time_starving = 0;
-		philos[i]->time_eating = 0;
-		philos[i]->time_sleeping = 0;
-		philos[i]->time_thinking = 0;
-		philos[i]->input = input;
+		i++;
+	}
+	free(thread);
+	thread = NULL;
+}
+
+void	ft_threads_detach(t_input input, pthread_t	*thread)
+{
+	int	i;
+
+	i = 0;
+	while (i < input.number_of_philosophers)
+	{
+		write(1, "detaching\n", 10);
+		if (!pthread_detach(thread[i]))
+		{
+			perror("pthread_detach");
+			exit(EXIT_FAILURE);
+		}
 		i++;
 	}
 }
 
-t_philo	**ft_link_philo_def(t_input input)
+pthread_mutex_t	*ft_forks_def(t_input input)
 {
-	t_philo	**philos;
-	int		i;
+	int				i;
+	pthread_mutex_t	*fork;
 
 	i = 0;
-	philos = (t_philo **)malloc(input.number_of_philosophers
-			* sizeof(t_philo *));
-	if (!(philos))
-		return (NULL);
-	nodes_init(input, philos);
-	return (philos);
-
+	fork = (pthread_mutex_t *)malloc(input.number_of_philosophers
+			* sizeof(pthread_mutex_t));
+	while (i < input.number_of_philosophers)
+	{
+		pthread_mutex_init(&fork[i], NULL);
+		i++;
+	}
+	return (fork);
 }

@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:31:40 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/07/15 20:28:35 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:44:52 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 int	main(int argc, char **argv)
 {
+	t_philo	*philo;
 	t_input	input;
-	t_philo	**philos;
-	t_philo	*head;
 
 	if (!ft_parce(argc, argv, &input))
 		return (0);
-	philos = ft_link_philo_def(input);
-	head = philos[0];
-	//print_list(head, input);
-	ft_threads_def(input, philos);
-	free(philos);
-	free_philos(head, input.number_of_philosophers);  //at the end
+	write(1, "kek\n", 4);
+	philo = ft_philos_def(input);
+	if (!philo)
+		return (0);
+	philo->input = input;
+	philo->fork = ft_forks_def(philo->input);
+	if (!philo->fork)
+		return (0);
+	//ft_time_start();
+	ft_threads_def(philo);
+	//ft_threads_detach(input, thread);
+	free(philo);
 	return (0);
 }

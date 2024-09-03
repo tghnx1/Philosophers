@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:15:14 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/07/09 12:03:08 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:49:28 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ int	main()
 	}
 	usleep(2000000);
     // Detach the thread
-	result = pthread_detach(thread);
-	if (result != 3)
+	if (pthread_detach(thread) != 3)
 	{
-		printf("res: %d\n", result);
 		perror("pthread_detach");
 		exit(EXIT_FAILURE);
 	}

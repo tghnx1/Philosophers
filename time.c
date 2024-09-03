@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   frees.c                                            :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 15:54:04 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/07/09 15:57:49 by mkokorev         ###   ########.fr       */
+/*   Created: 2024/07/16 14:47:39 by mkokorev          #+#    #+#             */
+/*   Updated: 2024/07/16 14:47:58 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Philo.h"
+#include "Philo.h"
 
-void	*free_philos(t_philo *head, int num)
+long	ft_timestamp(void)
 {
-	int		i;
-	t_philo	*current;
-	t_philo	*temp;
+	struct timeval	time_stamp;
 
-	if (!head)
-		return (NULL);
-	i = 0;
-	current = head;
-	while (i < num)
+	if (gettimeofday(&time_stamp, NULL) == -1)
 	{
-		temp = current;
-		current = current->right;
-		free(temp);
-		temp = NULL;
-		i++;
+		perror("gettimeofday");
+		exit(EXIT_FAILURE);
 	}
-	return (NULL);
+	return (time_stamp.tv_usec);
 }
-

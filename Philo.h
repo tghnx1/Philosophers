@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:12:40 by drabadan          #+#    #+#             */
-/*   Updated: 2024/07/15 19:34:37 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:45:41 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,32 @@ typedef struct s_input
 
 typedef struct s_philo
 {
-	int				index;
+	int				number;
 	int				time_starving;
 	int				time_eating;
 	int				time_sleeping;
-	int				time_thinking;
-	int				left_hand;
-	int				right_hand;
+	pthread_mutex_t	*fork;
 	t_input			input;
-	struct s_philo	*left;
-	struct s_philo	*right;
 
 }		t_philo;
 
-int		ft_atoi(const char *nptr);
-int		ft_parce(int argc, char **argv, t_input *input);
-t_philo	**ft_link_philo_def(t_input input);
-void	print_list(t_philo *head, t_input input);
-void	ft_threads_def(t_input input, t_philo **philos);
-void	*free_philos(t_philo *head, int num);
+typedef struct s_fork
+{
+	int		number;
+	long	time_starving;
+	long	time_eating;
+	long	time_sleeping;
+	t_input	input;
+
+}		t_fork;
+
+int				ft_atoi(const char *nptr);
+int				ft_parce(int argc, char **argv, t_input *input);
+t_philo			*ft_philos_def(t_input input);
+void			ft_threads_def(t_philo *philo);
+long			ft_timestamp(void);
+void			ft_threads_join(t_input input, pthread_t	*thread);
+void			ft_threads_detach(t_input input, pthread_t	*thread);
+pthread_mutex_t	*ft_forks_def(t_input input);
 
 #endif
