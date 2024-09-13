@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 14:47:39 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/11 13:45:19 by mkokorev         ###   ########.fr       */
+/*   Created: 2024/09/12 14:46:53 by mkokorev          #+#    #+#             */
+/*   Updated: 2024/09/12 14:46:53 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Philo.h"
+#include "../Philo.h"
 
-long ft_timestamp(void)
+void ft_free(t_philo *philo, int code)
 {
-	struct timeval time_stamp;
-
-	if (gettimeofday(&time_stamp, NULL) == -1)
+	if (code == 111)
 	{
-		perror("gettimeofday");
-		exit(EXIT_FAILURE);
+		free(philo->philos);
+		free(philo->fork);
+		free(philo);
 	}
-	return (time_stamp.tv_sec * 1000 + (time_stamp.tv_usec / 1000));
+	else if (code == 011)
+	{
+		free(philo->fork);
+		free(philo);
+	}
+	else if (code == 101)
+	{
+		free(philo->philos);
+		free(philo);
+	}
 }

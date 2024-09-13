@@ -6,16 +6,16 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:55:21 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/08/23 16:36:45 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:13:00 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philo.h"
 
-int	ft_arg_check(int argc, char **argv)
+int ft_arg_check(int argc, char **argv)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -41,15 +41,15 @@ int	ft_arg_check(int argc, char **argv)
 	return (1);
 }
 
-int	ft_parce(int argc, char **argv, t_input *input)
+int ft_parce(int argc, char **argv, t_input *input)
 {
 
 	if (!ft_arg_check(argc, argv))
 		return (0);
 	input->number_of_philosophers = ft_atoi(&argv[1][0]);
-	input->time_to_die = ft_atoi(&argv[2][0]);
-	input->time_to_eat = ft_atoi(&argv[3][0]);
-	input->time_to_sleep = ft_atoi(&argv[4][0]);
+	input->time_to_die = ft_atoi(&argv[2][0]) * 1000;
+	input->time_to_eat = ft_atoi(&argv[3][0]) * 1000;
+	input->time_to_sleep = ft_atoi(&argv[4][0]) * 1000;
 	if (argc == 6)
 		input->number_of_times_each_philosopher_must_eat = ft_atoi(&argv[5][0]);
 	else
