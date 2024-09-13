@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:56:22 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/12 15:00:08 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/13 22:00:38 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,32 @@ void *ft_monitor(void *temp)
 
 	i = 0;
 	philo = (t_philo *)temp;
-	printf("MONITOR\n");
-	printf("philos num: %d\n", philo->input.number_of_philosophers);
-	while (i < philo->input.number_of_philosophers)
+	while (!philo->simutation_is_over)
 	{
-		philo[i].simutation_is_over = 1;
-		i++;
+		while (i < philo->input.number_of_philosophers)
+		{
+			if (ft_die_check(philo))
+			{
+				printf("%ld %d died\n", ft_timestamp(&philo), philo[i].number);
+				pthread_mutex_lock(&philo->simulation_end_mut);
+				philo[i].simutation_is_over = 1;
+				pthread_mutex_unlock(&philo->simulation_end_mut);
+				return (NULL);
+			}
+			else
+				i++;
+		}
 	}
-	printf("sim is over: %d\n", philo[0].simutation_is_over);
 }
 
-void ft_threads_def(t_philo *philo)
+void ft_threads_def(t_philo **phil)
 {
 	int i;
 	pthread_t *philos;
 	pthread_t monitor;
+	t_philo *philo;
 
+	philo = *phil;
 	i = 0;
 	philos = (pthread_t *)malloc((philo->input.number_of_philosophers) * sizeof(pthread_t));
 	if (!philos)
