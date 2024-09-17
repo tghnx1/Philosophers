@@ -6,13 +6,15 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:12:40 by drabadan          #+#    #+#             */
-/*   Updated: 2024/09/17 18:49:22 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:54:37 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // cc *.c ./utils/*.c -pthread
 
 // docker run -it -v ${pwd}:/home/root ubuntu
+
+// when philos are full and algoritm of avoiding the death are left
 
 #ifndef PHILO_H
 #define PHILO_H
