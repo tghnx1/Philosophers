@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:12:40 by drabadan          #+#    #+#             */
-/*   Updated: 2024/09/16 16:41:05 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:49:22 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ typedef struct s_philo
 	int simutation_is_over;
 	t_input input;
 	long timestart;
-	long finished_meal_time;
+	long woke_up_time;
 	int dead;
-	int left_mutex_unlocked;
-	int right_mutex_unlocked;
+	int eating_sleeping;
+
 } t_philo;
 
 typedef struct s_fork
@@ -80,8 +80,8 @@ void ft_mutex_destroy(t_philo **philo);
 long ft_time_start(t_philo *philo);
 long ft_timestamp(t_philo **phil);
 void ft_mutex_def(t_philo **phil);
-int ft_die_check(t_philo *philo);
-long ft_get_starving_time(t_philo *philo);
+int ft_die_check(t_philo *philo, int i);
+void ft_get_starving_time(t_philo *philo, int i);
 void ft_sim_is_over(t_philo *philo, int philo_num);
 
 #endif

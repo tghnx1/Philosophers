@@ -6,24 +6,19 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:06:18 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/12 13:06:18 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:48:14 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philo.h"
 
-int ft_die_check(t_philo *philo)
+int	ft_die_check(t_philo *philo, int i)
 {
-	int i;
-
-	i = 0;
-	ft_get_starving_time(philo);
-	while (i < philo->input.number_of_philosophers)
+	ft_get_starving_time(philo, i);
+	if (philo[i].time_starving > philo[i].input.time_to_die / 1000)
 	{
-		// printf("time starving: %ld\n", philo[i].time_starving);
-		if (philo[i].time_starving * 1000 > philo[i].input.time_to_die)
-			return (1);
-		i++;
+		printf("time starving: %ld\ntime to die: %ld\n", philo[i].time_starving, philo[i].input.time_to_die / 1000);
+		return (1);
 	}
 	return (0);
 }
@@ -36,34 +31,25 @@ void *ft_dinner(void *temp)
 	philo->timestart = ft_time_start(philo);
 	while (!philo->simutation_is_over)
 	{
-		// printf("threads: sim is over: %d\n", philo->simutation_is_over);
-		// printf("time to eat: %ld\n", philo->input.time_to_eat);
-		// printf("last meal took at: %ld\n", philo->finished_meal_time);
-		// printf("starvation ttime: %ld\n", philo->time_starving * 1000);
-		// printf("time to die: %ld\n", philo->input.time_to_die);
 		printf("%ld %d is thinking\n", ft_timestamp(&philo), philo->number);
 		if (!ft_take_forks(philo))
 			return (NULL);
 		if (!ft_eat(philo))
+		{
+			printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
 			return (NULL);
+		}
+		printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
 		if (!ft_put_forks(philo))
 			return (NULL);
 		if (!ft_sleep(philo))
 			return (NULL);
+		printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
 	}
 	return (NULL);
 }
 
-int ft_sleep(t_philo *philo)
-{
-	if (philo->simutation_is_over)
-		return (0);
-	printf("%ld %d is sleeping\n", ft_timestamp(&philo), philo->number);
-	usleep(philo->input.time_to_sleep);
-	return (1);
-}
-
-int ft_eat(t_philo *philo)
+int	ft_eat(t_philo *philo)
 {
 	if (philo->simutation_is_over)
 	{
@@ -73,10 +59,25 @@ int ft_eat(t_philo *philo)
 		printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
 		return (0);
 	}
+	philo->eating_sleeping = 1;
+	philo->time_starving = 0;
 	printf("%ld %d is eating\n", ft_timestamp(&philo), philo->number);
-	philo->finished_meal_time = ft_time();
 	usleep(philo->input.time_to_eat);
-	philo->finished_meal_time = ft_time();
+	philo->time_starving = 0;
+	return (1);
+}
+
+int	ft_sleep(t_philo *philo)
+{
+	if (philo->simutation_is_over)
+		return (0);
+	philo->time_starving = 0;
+	philo->woke_up_time = ft_time();
+	philo->eating_sleeping = 1;
+	printf("%ld %d is sleeping\n", ft_timestamp(&philo), philo->number);
+	usleep(philo->input.time_to_sleep);
+	philo->eating_sleeping = 0;
+	philo->woke_up_time = ft_time();
 	return (1);
 }
 

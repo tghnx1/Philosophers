@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:47:39 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/14 11:41:24 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:48:34 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,19 @@ long ft_timestamp(t_philo **phil)
 	long timeend;
 
 	philo = *phil;
+	timeend = 0;
 	timeend = ft_time();
 	return (timeend - philo->timestart);
 }
 
-long ft_get_starving_time(t_philo *philo)
+void	ft_get_starving_time(t_philo *philo, int i)
 {
-	int i;
-	long time;
+	long	time;
 
 	time = ft_time();
-	i = 0;
-	while (i < philo->input.number_of_philosophers)
-	{
-		// printf("time : %ld\n", time);
-		// printf("finished_meal_time: %ld\n", philo[i].finished_meal_time);
-		philo[i].time_starving = time - philo[i].finished_meal_time;
-		i++;
-	}
+	if (philo[i].eating_sleeping)
+		philo[i].time_starving = 0;
+	else
+		philo[i].time_starving = time - philo[i].woke_up_time;
+	i++;
 }
