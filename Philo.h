@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:12:40 by drabadan          #+#    #+#             */
-/*   Updated: 2024/09/13 21:32:51 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:41:05 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_philo
 	long timestart;
 	long finished_meal_time;
 	int dead;
+	int left_mutex_unlocked;
+	int right_mutex_unlocked;
 } t_philo;
 
 typedef struct s_fork
@@ -68,10 +70,10 @@ void ft_threads_join(t_philo *philo, pthread_t monitor);
 void ft_threads_detach(t_philo *philo);
 void ft_forks_def(t_philo **phil);
 void *ft_dinner(void *temp);
-void *ft_eat(t_philo *philo);
-void *ft_sleep(t_philo *philo);
-void ft_take_forks(t_philo *philo);
-void ft_put_forks(t_philo *philo);
+int ft_eat(t_philo *philo);
+int ft_sleep(t_philo *philo);
+int ft_take_forks(t_philo *philo);
+int ft_put_forks(t_philo *philo);
 void ft_free(t_philo *philo, int code);
 void ft_forks_def(t_philo **phil);
 void ft_mutex_destroy(t_philo **philo);
@@ -80,5 +82,6 @@ long ft_timestamp(t_philo **phil);
 void ft_mutex_def(t_philo **phil);
 int ft_die_check(t_philo *philo);
 long ft_get_starving_time(t_philo *philo);
+void ft_sim_is_over(t_philo *philo, int philo_num);
 
 #endif

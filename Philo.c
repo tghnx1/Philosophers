@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:31:40 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/13 20:30:30 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:37:31 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int main(int argc, char **argv)
 	if (!philo->fork)
 		return (0);
 	ft_threads_def(&philo);
+	printf("WE ARE OUTSIDE!!\n");
 	ft_mutex_destroy(&philo);
 	ft_free(philo, 111);
-	printf("all the threads finished their work!\n");
 	return (0);
 }

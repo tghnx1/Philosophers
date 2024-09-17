@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:47:39 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/13 21:47:18 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/14 11:41:24 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ long ft_get_starving_time(t_philo *philo)
 	i = 0;
 	while (i < philo->input.number_of_philosophers)
 	{
-		printf("time : %ld\n", time);
-		printf("finished_meal_time: %ld\n", philo[i].finished_meal_time);
+		// printf("time : %ld\n", time);
+		// printf("finished_meal_time: %ld\n", philo[i].finished_meal_time);
 		philo[i].time_starving = time - philo[i].finished_meal_time;
 		i++;
 	}

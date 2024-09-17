@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:56:22 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/13 22:00:38 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:35:39 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,17 @@ void *ft_monitor(void *temp)
 			{
 				printf("%ld %d died\n", ft_timestamp(&philo), philo[i].number);
 				pthread_mutex_lock(&philo->simulation_end_mut);
-				philo[i].simutation_is_over = 1;
+				ft_sim_is_over(philo, philo[i].number);
 				pthread_mutex_unlock(&philo->simulation_end_mut);
+				printf("monitor: sim is over: %d\n", philo->simutation_is_over);
 				return (NULL);
 			}
 			else
 				i++;
 		}
+		i = 0;
 	}
+	return (NULL);
 }
 
 void ft_threads_def(t_philo **phil)
