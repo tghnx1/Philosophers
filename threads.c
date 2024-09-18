@@ -6,27 +6,58 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:56:22 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/18 13:13:16 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:11:47 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philo.h"
 
+static int	ft_philo_full(t_philo	*philo, int i)
+{
+	if (philo[i].ate_num >= philo->input.number_of_times_each_philosopher_must_eat)
+		return (1);
+	return (0);
+}
+
+int	ft_everyone_full(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	if (philo->input.number_of_times_each_philosopher_must_eat == -1)
+		return(0);
+	while (i < philo->input.number_of_philosophers)
+	{
+		if (ft_philo_full(philo, i))
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
 void *ft_monitor(void *temp)
 {
 	t_philo *philo;
 	int i;
+	int die;
+	int everyone_full;
 
 	i = 0;
+	die = 0;
 	philo = (t_philo *)temp;
 	while (!philo->simutation_is_over)
 	{
+		everyone_full = ft_everyone_full(philo);
+		if (philo->input.number_of_philosophers == 1)
+			return (NULL);
 		while (i < philo->input.number_of_philosophers)
 		{
-			if (ft_die_check(philo, i))
+			die = ft_die_check(philo, i);
+			if (die || everyone_full)
 			{
-				printf("%ld %d died\n", ft_timestamp(&philo), philo[i].number);
-				///time starving = %ld\n", philo->time_starving);
+				if (die)
+					printf("%ld %d died\n", ft_timestamp(&philo), philo[i].number);
 				pthread_mutex_lock(&philo->simulation_end_mut);
 				ft_sim_is_over(philo, philo[i].number);
 				pthread_mutex_unlock(&philo->simulation_end_mut);

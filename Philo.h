@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:12:40 by drabadan          #+#    #+#             */
-/*   Updated: 2024/09/18 13:05:47 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:00:38 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct s_philo
 	long woke_up_time;
 	int dead;
 	int eating_sleeping;
+	int ate_num;
+	int full;
 
 } t_philo;
 

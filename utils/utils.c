@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:45 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/17 18:23:26 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:01:47 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_philo *ft_philos_def(t_input input)
 		philo[i].dead = 0;
 		philo[i].timestart = ft_time();
 		philo[i].eating_sleeping = 0;
+		philo[i].ate_num = 0;
+		philo[i].full = 1;
 		i++;
 	}
 	return (philo);

@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:06:18 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/18 13:10:08 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:05:54 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,36 @@ int	ft_die_check(t_philo *philo, int i)
 
 void *ft_dinner(void *temp)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)temp;
 	philo->timestart = ft_time_start(philo);
+	if (philo->input.number_of_philosophers == 1)
+		{
+			printf("0 1 died\n");
+			return (NULL);
+		}
 	while (!philo->simutation_is_over)
 	{
-		printf("%ld %d is thinking\n", ft_timestamp(&philo), philo->number);
 		if (!ft_take_forks(philo))
 			return (NULL);
 		if (!ft_eat(philo))
-		{
-			//printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
 			return (NULL);
-		}
+		//printf("philo[%d]->ate_num: %d\n", philo->number, philo->ate_num);
+		//printf("must eat: %d\n", philo->input.number_of_times_each_philosopher_must_eat);
 		//printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
 		if (!ft_put_forks(philo))
 			return (NULL);
+		philo->ate_num ++;
+		//printf("%ld ate[%d]: %d\n", ft_timestamp(&philo), philo->number, philo->ate_num);
 		if (!ft_sleep(philo))
 			return (NULL);
 		//printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
+		if (philo->input.number_of_philosophers % 2 == 1)
+		{
+			sleep(500);
+		}
+		printf("%ld %d is thinking\n", ft_timestamp(&philo), philo->number);
 	}
 	return (NULL);
 }
@@ -54,9 +64,9 @@ int	ft_eat(t_philo *philo)
 	if (philo->simutation_is_over)
 	{
 		pthread_mutex_unlock(&philo->fork[philo->number - 1]);
-		printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, philo->number - 1);
+		//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, philo->number - 1);
 		pthread_mutex_unlock(&philo->fork[(philo->number) % philo->input.number_of_philosophers]);
-		printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
+		//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
 		return (0);
 	}
 	philo->eating_sleeping = 1;
