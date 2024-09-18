@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:06:18 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/17 18:48:14 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:10:08 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_die_check(t_philo *philo, int i)
 	ft_get_starving_time(philo, i);
 	if (philo[i].time_starving > philo[i].input.time_to_die / 1000)
 	{
-		printf("time starving: %ld\ntime to die: %ld\n", philo[i].time_starving, philo[i].input.time_to_die / 1000);
+		//printf("time starving: %ld\ntime to die: %ld\n", philo[i].time_starving, philo[i].input.time_to_die / 1000);
 		return (1);
 	}
 	return (0);
@@ -36,15 +36,15 @@ void *ft_dinner(void *temp)
 			return (NULL);
 		if (!ft_eat(philo))
 		{
-			printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
+			//printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
 			return (NULL);
 		}
-		printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
+		//printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
 		if (!ft_put_forks(philo))
 			return (NULL);
 		if (!ft_sleep(philo))
 			return (NULL);
-		printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
+		//printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
 	}
 	return (NULL);
 }
