@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:56:22 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/18 16:11:47 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:48:06 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,13 @@ void *ft_monitor(void *temp)
 			if (die || everyone_full)
 			{
 				if (die)
-					printf("%ld %d died\n", ft_timestamp(&philo), philo[i].number);
-				pthread_mutex_lock(&philo->simulation_end_mut);
+					printf("%ld %d died\n", ft_timestamp(&philo),
+						philo[i].number);
+				if (!ft_mutex(&philo->simulation_end_mut, "LOCK", philo))
+					return (NULL);
 				ft_sim_is_over(philo, philo[i].number);
-				pthread_mutex_unlock(&philo->simulation_end_mut);
+				if (!ft_mutex(&philo->simulation_end_mut, "UNLOCK", philo))
+					return (NULL);
 				return (NULL);
 			}
 			else

@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:47:39 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/17 18:48:34 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:16:10 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,5 @@ void	ft_get_starving_time(t_philo *philo, int i)
 	long	time;
 
 	time = ft_time();
-	if (philo[i].eating_sleeping)
-		philo[i].time_starving = 0;
-	else
-		philo[i].time_starving = time - philo[i].woke_up_time;
-	i++;
+	philo[i].time_starving = time - philo[i].start_meal_time;
 }

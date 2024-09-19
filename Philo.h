@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:12:40 by drabadan          #+#    #+#             */
-/*   Updated: 2024/09/18 16:00:38 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/19 20:21:08 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 // docker run -it -v ${pwd}:/home/root ubuntu
 
 // when philos are full and algoritm of avoiding the death are left, and don't print additionalstupid stuff to the terminal
+// NO EXIT!!!!!!!!!!!!!!!!!!!!!!1
 
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <pthread.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/time.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <pthread.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/time.h>
 
 typedef struct s_input
 {
@@ -43,11 +44,12 @@ typedef struct s_philo
 	long time_sleeping;
 	pthread_mutex_t *fork;
 	pthread_mutex_t simulation_end_mut;
+	pthread_mutex_t print_mut;
 	pthread_t *philos;
 	int simutation_is_over;
 	t_input input;
 	long timestart;
-	long woke_up_time;
+	long start_meal_time;
 	int dead;
 	int eating_sleeping;
 	int ate_num;
@@ -72,20 +74,22 @@ void ft_threads_def(t_philo **phil);
 long ft_time(void);
 void ft_threads_join(t_philo *philo, pthread_t monitor);
 void ft_threads_detach(t_philo *philo);
-void ft_forks_def(t_philo **phil);
+int ft_forks_def(t_philo **phil);
 void *ft_dinner(void *temp);
 int ft_eat(t_philo *philo);
 int ft_sleep(t_philo *philo);
 int ft_take_forks(t_philo *philo);
 int ft_put_forks(t_philo *philo);
 void ft_free(t_philo *philo, int code);
-void ft_forks_def(t_philo **phil);
-void ft_mutex_destroy(t_philo **philo);
+int ft_forks_def(t_philo **phil);
+int ft_mutex_destroy(t_philo **philo);
 long ft_time_start(t_philo *philo);
 long ft_timestamp(t_philo **phil);
-void ft_mutex_def(t_philo **phil);
+int ft_mutex_def(t_philo **phil);
 int ft_die_check(t_philo *philo, int i);
 void ft_get_starving_time(t_philo *philo, int i);
 void ft_sim_is_over(t_philo *philo, int philo_num);
+int	ft_strcmp(const char *s1, const char *s2);
+int	ft_mutex(pthread_mutex_t *mutex, char *code, t_philo *philo);
 
 #endif

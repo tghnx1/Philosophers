@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:06:18 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/18 17:05:54 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:15:11 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ int	ft_die_check(t_philo *philo, int i)
 	return (0);
 }
 
-void *ft_dinner(void *temp)
+void	*ft_dinner(void *temp)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)temp;
 	philo->timestart = ft_time_start(philo);
 	if (philo->input.number_of_philosophers == 1)
-		{
-			printf("0 1 died\n");
-			return (NULL);
-		}
+	{
+		printf("0 1 died\n");
+		return (NULL);
+	}
 	while (!philo->simutation_is_over)
 	{
 		if (!ft_take_forks(philo))
@@ -50,11 +50,11 @@ void *ft_dinner(void *temp)
 		if (!ft_sleep(philo))
 			return (NULL);
 		//printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
-		if (philo->input.number_of_philosophers % 2 == 1)
+		if (!philo->simutation_is_over)
 		{
-			sleep(500);
+			usleep(500);
+			printf("%ld %d is thinking\n", ft_timestamp(&philo), philo->number);
 		}
-		printf("%ld %d is thinking\n", ft_timestamp(&philo), philo->number);
 	}
 	return (NULL);
 }
@@ -69,11 +69,9 @@ int	ft_eat(t_philo *philo)
 		//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
 		return (0);
 	}
-	philo->eating_sleeping = 1;
-	philo->time_starving = 0;
+	philo->start_meal_time = ft_time();
 	printf("%ld %d is eating\n", ft_timestamp(&philo), philo->number);
 	usleep(philo->input.time_to_eat);
-	philo->time_starving = 0;
 	return (1);
 }
 
@@ -81,19 +79,14 @@ int	ft_sleep(t_philo *philo)
 {
 	if (philo->simutation_is_over)
 		return (0);
-	philo->time_starving = 0;
-	philo->woke_up_time = ft_time();
-	philo->eating_sleeping = 1;
 	printf("%ld %d is sleeping\n", ft_timestamp(&philo), philo->number);
 	usleep(philo->input.time_to_sleep);
-	philo->eating_sleeping = 0;
-	philo->woke_up_time = ft_time();
 	return (1);
 }
 
-void ft_sim_is_over(t_philo *philo, int philo_num)
+void	ft_sim_is_over(t_philo *philo, int philo_num)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < philo->input.number_of_philosophers)
