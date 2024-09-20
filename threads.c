@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:56:22 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/19 19:48:06 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:08:22 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ void *ft_monitor(void *temp)
 	i = 0;
 	die = 0;
 	philo = (t_philo *)temp;
-	while (!philo->simutation_is_over)
+	while (1)
 	{
+		if (!ft_check_simul(philo))
+			break ;
 		everyone_full = ft_everyone_full(philo);
 		if (philo->input.number_of_philosophers == 1)
 			return (NULL);
@@ -57,13 +59,11 @@ void *ft_monitor(void *temp)
 			if (die || everyone_full)
 			{
 				if (die)
-					printf("%ld %d died\n", ft_timestamp(&philo),
-						philo[i].number);
-				if (!ft_mutex(&philo->simulation_end_mut, "LOCK", philo))
-					return (NULL);
+				{
+					if (!ft_mut_printf(philo, "died"))
+						return (NULL);
+				}
 				ft_sim_is_over(philo, philo[i].number);
-				if (!ft_mutex(&philo->simulation_end_mut, "UNLOCK", philo))
-					return (NULL);
 				return (NULL);
 			}
 			else
@@ -74,7 +74,7 @@ void *ft_monitor(void *temp)
 	return (NULL);
 }
 
-void ft_threads_def(t_philo **phil)
+void	ft_threads_def(t_philo **phil)
 {
 	int i;
 	pthread_t *philos;

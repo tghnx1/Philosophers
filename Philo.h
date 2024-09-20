@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:12:40 by drabadan          #+#    #+#             */
-/*   Updated: 2024/09/19 20:21:08 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:05:43 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_philo
 	pthread_mutex_t *fork;
 	pthread_mutex_t simulation_end_mut;
 	pthread_mutex_t print_mut;
+	pthread_mutex_t time;
 	pthread_t *philos;
 	int simutation_is_over;
 	t_input input;
@@ -71,7 +72,7 @@ int ft_atoi(const char *nptr);
 int ft_parce(int argc, char **argv, t_input *input);
 t_philo *ft_philos_def(t_input input);
 void ft_threads_def(t_philo **phil);
-long ft_time(void);
+long	ft_time();
 void ft_threads_join(t_philo *philo, pthread_t monitor);
 void ft_threads_detach(t_philo *philo);
 int ft_forks_def(t_philo **phil);
@@ -87,9 +88,11 @@ long ft_time_start(t_philo *philo);
 long ft_timestamp(t_philo **phil);
 int ft_mutex_def(t_philo **phil);
 int ft_die_check(t_philo *philo, int i);
-void ft_get_starving_time(t_philo *philo, int i);
-void ft_sim_is_over(t_philo *philo, int philo_num);
+int ft_get_starving_time(t_philo *philo, int i);
+int ft_sim_is_over(t_philo *philo, int philo_num);
 int	ft_strcmp(const char *s1, const char *s2);
 int	ft_mutex(pthread_mutex_t *mutex, char *code, t_philo *philo);
+int	ft_mut_printf(t_philo *philo, char *print);
+int	ft_check_simul(t_philo *philo);
 
 #endif

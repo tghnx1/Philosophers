@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:45 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/19 19:25:07 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:55:03 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_philo	*ft_philos_def(t_input input)
 {
 	t_philo	*philo;
-	int	i;
+	int		i;
 
 	i = 0;
 	philo = (t_philo *)malloc((input.number_of_philosophers + 1)
@@ -88,4 +88,17 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+
+int	ft_mut_printf(t_philo *philo, char *print)
+{
+	long	timestamp;
+
+	if (!ft_mutex(&philo->print_mut, "LOCK", philo))
+		return (0);
+	printf("%ld %d %s\n", ft_timestamp(&philo),
+		philo->number, print);
+	if (!ft_mutex(&philo->print_mut, "UNLOCK", philo))
+		return (0);
+	return (1);
 }
