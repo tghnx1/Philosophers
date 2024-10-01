@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:12:40 by drabadan          #+#    #+#             */
-/*   Updated: 2024/09/20 18:05:43 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:44:19 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include "./libft/ft_printf.h" //todo: remove
 
 typedef struct s_input
 {

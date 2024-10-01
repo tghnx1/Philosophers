@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:04:08 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/20 18:50:22 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:58:09 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,10 @@ int	ft_other_mut_def(t_philo **phil)
 		philo[i].time = time;
 		i++;
 	}
+	// for (int i = 0; i < 4; i++)
+	// {
+	// 	printf("Philo %i, mutex initialized %p\n", i, &philo[i].print_mut);
+	// }
 	return (1);
 }
 

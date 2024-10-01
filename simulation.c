@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:06:18 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/20 18:09:31 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:37:37 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*ft_dinner(void *temp)
 		//printf("philo[%d]->ate_num: %d\n", philo->number, philo->ate_num);
 		//printf("must eat: %d\n", philo->input.number_of_times_each_philosopher_must_eat);
 		//printf("%ld %d time starvinggg: %ld\n", ft_timestamp(&philo), philo->number, philo->time_starving);
-		if (!ft_put_forks(philo))
+		if (!ft_check_simul(philo))
 			return (NULL);
 		philo->ate_num ++;
 		//printf("%ld ate[%d]: %d\n", ft_timestamp(&philo), philo->number, philo->ate_num);
@@ -67,7 +67,7 @@ void	*ft_dinner(void *temp)
 
 int	ft_eat(t_philo *philo)
 {
-	if (philo->simutation_is_over)
+	if (!ft_check_simul(philo))
 	{
 		pthread_mutex_unlock(&philo->fork[philo->number - 1]);
 		//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, philo->number - 1);
@@ -88,7 +88,7 @@ int	ft_eat(t_philo *philo)
 
 int	ft_sleep(t_philo *philo)
 {
-	if (philo->simutation_is_over)
+	if (!ft_check_simul(philo))
 		return (0);
 	printf("%ld %d is sleeping\n", ft_timestamp(&philo), philo->number);
 	usleep(philo->input.time_to_sleep);
@@ -102,7 +102,7 @@ int	ft_sim_is_over(t_philo *philo, int philo_num)
 	i = 0;
 	if (!ft_mutex(&philo->simulation_end_mut, "LOCK", philo))
 		return (0);
-	while (i < philo->input.number_of_philosophers)
+	while (i < philo->input.number_of_philosophers)//todo: make this mutex common for all philos
 	{
 		philo[i].simutation_is_over = philo_num;
 		i++;

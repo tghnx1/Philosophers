@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:08:26 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/20 18:45:06 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:30:35 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	ft_take_forks(t_philo *philo)
 		if (!ft_mutex(&philo->fork[right_fork], "LOCK", philo))
 			return (0);
 		// ptint it:
+		
 		if (!philo->simutation_is_over)
 		{
 			if (!ft_mut_printf(philo, "has taken a fork"))
@@ -122,7 +123,7 @@ int	ft_put_forks(t_philo *philo)
 	if (!ft_mutex(&philo->fork[philo->number - 1], "UNLOCK", philo))
 		return (228);
 	//printf("%ld %d has put a fork %d\n", ft_timestamp(&philo), philo->number, philo->number - 1);
-	if (philo->simutation_is_over)
+	if (!ft_check_simul(philo))
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:45 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/20 18:55:03 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:47:02 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,11 @@ int	ft_mut_printf(t_philo *philo, char *print)
 
 	if (!ft_mutex(&philo->print_mut, "LOCK", philo))
 		return (0);
-	printf("%ld %d %s\n", ft_timestamp(&philo),
+	printf("Philo %i locking mutex %p\n", philo->number, &philo->print_mut);
+	ft_printf("%d %d %s\n", ft_timestamp(&philo),
 		philo->number, print);
+	// printf("%ld %d \n", ft_timestamp(&philo),
+	// 	philo->number);
 	if (!ft_mutex(&philo->print_mut, "UNLOCK", philo))
 		return (0);
 	return (1);
