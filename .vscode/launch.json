@@ -6,7 +6,7 @@
           "type": "cppdbg",
           "request": "launch",
           "program": "${workspaceFolder}/a.out", // Path to your compiled program
-          "args": ["5", "500", "500", "500"], // Command line arguments (optional)
+          "args": ["3", "500", "500", "500"], // Command line arguments (optional)
           "stopAtEntry": false,
           "cwd": "${workspaceFolder}",
           "environment": [],

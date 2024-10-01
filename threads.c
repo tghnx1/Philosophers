@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:56:22 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/20 18:08:22 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:39:00 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	ft_everyone_full(t_philo *philo)
 	return (1);
 }
 
-void *ft_monitor(void *temp)
+void	*ft_monitor(void *temp)
 {
-	t_philo *philo;
-	int i;
-	int die;
-	int everyone_full;
+	t_philo	*philo;
+	int		i;
+	int		die;
+	int		everyone_full;
 
 	i = 0;
 	die = 0;
@@ -60,8 +60,9 @@ void *ft_monitor(void *temp)
 			{
 				if (die)
 				{
-					if (!ft_mut_printf(philo, "died"))
+					if (!ft_mut_printf(&philo[i], "died"))
 						return (NULL);
+					
 				}
 				ft_sim_is_over(philo, philo[i].number);
 				return (NULL);
@@ -76,10 +77,10 @@ void *ft_monitor(void *temp)
 
 void	ft_threads_def(t_philo **phil)
 {
-	int i;
-	pthread_t *philos;
-	pthread_t monitor;
-	t_philo *philo;
+	int			i;
+	pthread_t	*philos;
+	pthread_t	monitor;
+	t_philo		*philo;
 
 	philo = *phil;
 	i = 0;
@@ -94,7 +95,7 @@ void	ft_threads_def(t_philo **phil)
 	while (i < philo->input.number_of_philosophers)
 	{
 		if (pthread_create(&philo->philos[i], NULL,
-						   ft_dinner, (void *)&philo[i]) != 0)
+						ft_dinner, (void *)&philo[i]) != 0)
 		{
 			perror("pthread_create error:");
 			ft_free(philo, 111);

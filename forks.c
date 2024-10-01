@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:08:26 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/20 18:45:06 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:50:17 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ int	ft_take_forks(t_philo *philo)
 		else
 		{
 			ft_mutex(&philo->fork[left_fork], "UNLOCK", philo);
+			ft_mutex(&philo->fork[right_fork], "UNLOCK", philo);
 			return (0);
-			//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
+			//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, left_fork);
 		}
 	}
 	else
@@ -88,7 +89,7 @@ int	ft_take_forks(t_philo *philo)
 		else
 		{
 			ft_mutex(&philo->fork[left_fork], "UNLOCK", philo);
-			//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
+			//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, left_fork);
 			return (0);
 		}
 		usleep(500);
@@ -105,7 +106,8 @@ int	ft_take_forks(t_philo *philo)
 		else
 		{
 			ft_mutex(&philo->fork[right_fork], "UNLOCK", philo);
-			//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, philo->number - 1);
+			ft_mutex(&philo->fork[left_fork], "UNLOCK", philo);
+			//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, right_fork);
 			return (0);
 		}
 	}
@@ -117,11 +119,11 @@ int	ft_put_forks(t_philo *philo)
 	// put left:
 	if (!ft_mutex(&philo->fork[(philo->number) % philo->input.number_of_philosophers], "UNLOCK", philo))
 		return (228);
-		//printf("%ld %d has put a fork %d\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
+		printf("%ld %d has put a fork %d\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
 	// put right:
 	if (!ft_mutex(&philo->fork[philo->number - 1], "UNLOCK", philo))
 		return (228);
-	//printf("%ld %d has put a fork %d\n", ft_timestamp(&philo), philo->number, philo->number - 1);
+	printf("%ld %d has put a fork %d\n", ft_timestamp(&philo), philo->number, philo->number - 1);
 	if (philo->simutation_is_over)
 		return (0);
 	return (1);

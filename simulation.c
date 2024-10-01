@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:06:18 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/20 18:09:31 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:40:49 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_die_check(t_philo *philo, int i)
 	if (philo[i].time_starving > philo[i].input.time_to_die / 1000)
 	{
 		//printf("time starving: %ld\ntime to die: %ld\n", philo[i].time_starving, philo[i].input.time_to_die / 1000);
-		return (1);
+		return (i);
 	}
 	return (0);
 }
@@ -70,9 +70,9 @@ int	ft_eat(t_philo *philo)
 	if (philo->simutation_is_over)
 	{
 		pthread_mutex_unlock(&philo->fork[philo->number - 1]);
-		//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, philo->number - 1);
+		printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, philo->number - 1);
 		pthread_mutex_unlock(&philo->fork[(philo->number) % philo->input.number_of_philosophers]);
-		//printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
+		printf("%ld %d has put a fork %d cause of death\n", ft_timestamp(&philo), philo->number, (philo->number) % philo->input.number_of_philosophers);
 		return (0);
 	}
 	if (!ft_mutex(&philo->time, "LOCK", philo))
