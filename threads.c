@@ -6,26 +6,30 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:56:22 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/20 18:08:22 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:49:52 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philo.h"
 
-static int	ft_philo_full(t_philo	*philo, int i)
+static int ft_philo_full(t_philo *philo, int i)
 {
+	if (!ft_mutex(philo->eat, "LOCK", philo))
+		return (0);
 	if (philo[i].ate_num >= philo->input.number_of_times_each_philosopher_must_eat)
 		return (1);
+	if (!ft_mutex(philo->eat, "UNLOCK", philo))
+		return (0);
 	return (0);
 }
 
-int	ft_everyone_full(t_philo *philo)
+int ft_everyone_full(t_philo *philo)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (philo->input.number_of_times_each_philosopher_must_eat == -1)
-		return(0);
+		return (0);
 	while (i < philo->input.number_of_philosophers)
 	{
 		if (ft_philo_full(philo, i))
@@ -49,7 +53,7 @@ void *ft_monitor(void *temp)
 	while (1)
 	{
 		if (!ft_check_simul(philo))
-			break ;
+			break;
 		everyone_full = ft_everyone_full(philo);
 		if (philo->input.number_of_philosophers == 1)
 			return (NULL);
@@ -60,7 +64,7 @@ void *ft_monitor(void *temp)
 			{
 				if (die)
 				{
-					if (!ft_mut_printf(philo, "died"))
+					if (!ft_mut_printf(&philo[i], "died"))
 						return (NULL);
 				}
 				ft_sim_is_over(philo, philo[i].number);
@@ -74,7 +78,7 @@ void *ft_monitor(void *temp)
 	return (NULL);
 }
 
-void	ft_threads_def(t_philo **phil)
+void ft_threads_def(t_philo **phil)
 {
 	int i;
 	pthread_t *philos;
