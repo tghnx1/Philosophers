@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:45 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/10/02 17:32:35 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:47:38 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int ft_strcmp(const char *s1, const char *s2)
 
 int ft_mut_printf(t_philo *philo, char *print)
 {
-	long timestamp;
-
 	if (!ft_mutex(philo->print_mut, "LOCK", philo))
 		return (0);
 	printf("%ld %d %s\n", ft_timestamp(&philo),

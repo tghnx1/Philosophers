@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:04:08 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/10/02 21:04:24 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:47:10 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,11 @@ int ft_mutex_destroy(t_philo **phil)
 			return (0);
 		i++;
 	}
-	if (!ft_mutex(philo->simulation_end_mut, "DESTROY", philo) || !ft_mutex(philo->print_mut, "DESTROY", philo) || !ft_mutex(philo->time, "DESTROY", philo) || !ft_mutex(philo->eat, "DESTROY", philo))
-		;
-	return (0);
+	if (!ft_mutex(philo->simulation_end_mut, "DESTROY", philo) ||
+		!ft_mutex(philo->print_mut, "DESTROY", philo) ||
+		!ft_mutex(philo->time, "DESTROY", philo) ||
+		!ft_mutex(philo->eat, "DESTROY", philo))
+		return (0);
 	return (1);
 }
 
