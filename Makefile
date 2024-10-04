@@ -6,7 +6,7 @@
 #    By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/24 12:40:58 by mkokorev          #+#    #+#              #
-#    Updated: 2024/10/03 11:46:29 by mkokorev         ###   ########.fr        #
+#    Updated: 2024/10/04 16:39:35 by mkokorev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ SRC		= forks.c parce.c Philo.c simulation.c threads.c time.c ./utils/atoi.c ./ut
 		  ./utils/mutex.c ./utils/utils.c
 
 OBJ		= $(SRC:.c=.o)
-CFLAGS	= -Wall -Wextra -Werror -pthread
-CC		= cc
+CFLAGS	= -Wall -Wextra -Werror -pthread -g
+CC		= gcc
 
 all: $(NAME)
 

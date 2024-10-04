@@ -6,16 +6,16 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:55:21 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/11 14:13:00 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:17:01 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philo.h"
 
-int ft_arg_check(int argc, char **argv)
+int	ft_arg_check(int argc, char **argv)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -41,9 +41,8 @@ int ft_arg_check(int argc, char **argv)
 	return (1);
 }
 
-int ft_parce(int argc, char **argv, t_input *input)
+int	ft_parce(int argc, char **argv, t_input *input)
 {
-
 	if (!ft_arg_check(argc, argv))
 		return (0);
 	input->number_of_philosophers = ft_atoi(&argv[1][0]);

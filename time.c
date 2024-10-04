@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:47:39 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/09/20 18:39:26 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:03:48 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ long	ft_time(void)
 
 long	ft_time_start(t_philo *philo)
 {
-	// if (!ft_mutex(&philo->time, "LOCK", philo))
-	// 	return (0);
 	philo->timestart = ft_time();
-	// if (!ft_mutex(&philo->time, "UNLOCK", philo))
-	// 	return (0);
 	return (philo->timestart);
 }
 
@@ -39,12 +35,8 @@ long	ft_timestamp(t_philo **phil)
 
 	philo = *phil;
 	timeend = 0;
-	// if (!ft_mutex(&philo->time, "LOCK", philo))
-	// 	return (0);
 	timeend = ft_time();
 	timestamp = timeend - philo->timestart;
-	// if (!ft_mutex(&philo->time, "UNLOCK", philo))
-	// 	return (0);
 	return (timestamp);
 }
 
