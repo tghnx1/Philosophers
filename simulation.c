@@ -6,22 +6,33 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:06:18 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/10/04 16:51:03 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:01:28 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philo.h"
 
-int	ft_die_check(t_philo *philo, int i)
+int	ft_loop_dinner(t_philo *philo)
 {
-	if (!ft_mutex(philo[i].time, "LOCK", philo))
-		return (0);
-	ft_get_starving_time(philo, i);
-	if (!ft_mutex(philo[i].time, "UNLOCK", philo))
-		return (0);
-	if (philo[i].time_starving > philo[i].input.time_to_die / 1000)
-		return (1);
-	return (0);
+	while (1)
+	{
+		if (!ft_check_simul(philo))
+			return (0);
+		if (!ft_take_forks(philo))
+			return (0);
+		if (!ft_eat(philo))
+			return (0);
+		if (!ft_put_forks(philo))
+			return (0);
+		if (!ft_ate_increment(philo))
+			return (0);
+		if (!ft_sleep(philo))
+			return (0);
+		usleep(500);
+		if (ft_check_simul(philo))
+			if (!ft_mut_printf(philo, "is thinking"))
+				return (0);
+	}
 }
 
 void	*ft_dinner(void *temp)
@@ -35,31 +46,7 @@ void	*ft_dinner(void *temp)
 		printf("0 1 died\n");
 		return (NULL);
 	}
-	while (1)
-	{
-		if (!ft_check_simul(philo))
-			return (NULL);
-		if (!ft_take_forks(philo))
-			return (NULL);
-		if (!ft_eat(philo))
-			return (NULL);
-		if (!ft_put_forks(philo))
-			return (NULL);
-		if (!ft_mutex(philo->eat, "LOCK", philo))
-			return (0);
-		philo->ate_num++;
-		if (philo->ate_num
-			>= philo->input.number_of_times_each_philosopher_must_eat)
-			philo->full = 1;
-		if (!ft_mutex(philo->eat, "UNLOCK", philo))
-			return (0);
-		if (!ft_sleep(philo))
-			return (NULL);
-		usleep(500);
-		if (ft_check_simul(philo))
-			if (!ft_mut_printf(philo, "is thinking"))
-				return (0);
-	}
+	ft_loop_dinner(philo);
 	return (NULL);
 }
 

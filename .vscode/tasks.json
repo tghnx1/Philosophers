@@ -10,7 +10,7 @@
 				"../Philosophers/*.c", // Compile all .c files in the Philosophers directory
 				"../Philosophers/utils/*.c",
 				"-o",
-				"../Philosophers/a.out" // Output binary (or use a.out.exe for Windows)
+				"../Philosophers/philo" // Output binary (or use a.out.exe for Windows)
 			],
 			"group": {
 				"kind": "build",

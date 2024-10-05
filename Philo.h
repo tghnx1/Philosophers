@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:12:40 by drabadan          #+#    #+#             */
-/*   Updated: 2024/10/04 16:33:25 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:57:08 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_mutex(pthread_mutex_t *mutex, char *code, t_philo *philo);
 int		ft_mut_printf(t_philo *philo, char *print);
 int		ft_check_simul(t_philo *philo);
-int	ft_take_forks_sort(t_philo *philo, int second_fork, int first_fork);
-
+int		ft_take_forks_sort(t_philo *philo, int second_fork, int first_fork);
+int		ft_ate_increment(t_philo *philo);
+int		ft_die_check(t_philo *philo, int i);
+int		ft_mutex_lock_unlock(pthread_mutex_t *mutex,
+			char *code, t_philo *philo);
+int		ft_fork_allocate(t_philo *philo, pthread_mutex_t	**forkie);
+int		ft_share_mutex(t_philo *philo);
 #endif

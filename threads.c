@@ -6,7 +6,7 @@
 /*   By: mkokorev <mkokorev@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:56:22 by mkokorev          #+#    #+#             */
-/*   Updated: 2024/10/04 16:59:21 by mkokorev         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:37:19 by mkokorev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,14 @@ int	ft_everyone_full(t_philo *philo)
 			ft_mutex(philo->eat, "UNLOCK", philo);
 			return (0);
 		}
-		if (!ft_mutex(philo->eat, "UNLOCK", philo))
-			return (0);
 	}
+	if (!ft_mutex(philo->eat, "UNLOCK", philo))
+		return (0);
 	return (1);
 }
 
-void	*ft_monitor(void *temp)
+int	ft_monitoring_loop(t_philo *philo, int everyone_full, int i, int die)
 {
-	t_philo	*philo;
-	int		i;
-	int		die;
-	int		everyone_full;
-
-	i = 0;
-	die = 0;
-	philo = (t_philo *)temp;
-	if (philo->input.number_of_philosophers == 1)
-		return (NULL);
 	while (1)
 	{
 		if (!ft_check_simul(philo))
@@ -61,28 +51,69 @@ void	*ft_monitor(void *temp)
 				if (die)
 				{
 					if (!ft_mut_printf(&philo[i], "died"))
-						return (NULL);
+						return (0);
 				}
 				ft_sim_is_over(philo, philo[i].number);
-				return (NULL);
+				return (0);
 			}
 			else
 				i++;
 		}
 		i = 0;
 	}
+	return (1);
+}
+
+void	*ft_monitor(void *temp)
+{
+	t_philo	*philo;
+	int		i;
+	int		die;
+	int		everyone_full;
+
+	i = 0;
+	die = 0;
+	everyone_full = 0;
+	philo = (t_philo *)temp;
+	if (philo->input.number_of_philosophers == 1)
+		return (NULL);
+	ft_monitoring_loop(philo, everyone_full, i, die);
 	return (NULL);
+}
+
+int	ft_threads_create(t_philo *philo, pthread_t	*monitor)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo->input.number_of_philosophers)
+	{
+		if (pthread_create(&philo->philos[i], NULL,
+				ft_dinner, (void *)&philo[i]) != 0)
+		{
+			ft_free(philo, 111);
+			printf("threads create failed\n");
+			return (0);
+		}
+		i++;
+	}
+	if (pthread_create(monitor, NULL,
+			ft_monitor, (void *)philo) != 0)
+	{
+		ft_free(philo, 111);
+		printf("monitor thread create failed\n");
+		return (0);
+	}
+	return (1);
 }
 
 void	ft_threads_def(t_philo **phil)
 {
-	int			i;
 	pthread_t	*philos;
 	pthread_t	monitor;
 	t_philo		*philo;
 
 	philo = *phil;
-	i = 0;
 	philos = (pthread_t *)malloc((philo->input.number_of_philosophers)
 			* sizeof(pthread_t));
 	if (!philos)
@@ -92,24 +123,8 @@ void	ft_threads_def(t_philo **phil)
 		return ;
 	}
 	philo->philos = philos;
-	while (i < philo->input.number_of_philosophers)
-	{
-		if (pthread_create(&philo->philos[i], NULL,
-				ft_dinner, (void *)&philo[i]) != 0)
-		{
-			ft_free(philo, 111);
-			printf("threads create failed\n");
-			return ;
-		}
-		i++;
-	}
-	if (pthread_create(&monitor, NULL,
-			ft_monitor, (void *)philo) != 0)
-	{
-		ft_free(philo, 111);
-		printf("monitor thread create failed\n");
+	if (!ft_threads_create(philo, &monitor))
 		return ;
-	}
 	ft_threads_join(philo, monitor);
 	return ;
 }
